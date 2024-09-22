@@ -1,7 +1,11 @@
 dist: dist/index.js
 dist/index.js: $(wildcard src/*.ts) bun.lockb
 	mkdir -p $(@D)
-	bun build --define "process.env.NODE_ENV='production'" src/index.ts --target=node --outfile=dist/index.js --minify
+	bun build src/index.ts --target=node --outfile=dist/index.js --minify \
+		--define "process.env.NODE_ENV='production'" \
+		--external open \
+		--external prompts \
+		--external zod
 
 bun.lockb: package.json
 	bun install
