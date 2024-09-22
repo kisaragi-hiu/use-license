@@ -1,3 +1,2 @@
 [test]
-preload = ["./init-test.bun.ts"]
 coverage = true
