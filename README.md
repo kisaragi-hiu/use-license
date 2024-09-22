@@ -1,5 +1,7 @@
 # use-license
 
+[![Coverage Status](https://coveralls.io/repos/github/kisaragi-hiu/use-license/badge.svg?branch=main)](https://coveralls.io/github/kisaragi-hiu/use-license?branch=main)
+
 Yet another take at a license downloader.
 
 ```sh
