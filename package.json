@@ -7,6 +7,11 @@
     "type": "git",
     "url": "git+https://github.com/kisaragi-hiu/use-license.git"
   },
+  "keywords": ["license", "cli", "download", "spdx"],
+  "funding": {
+    "type": "buymeacoffee",
+    "url": "https://www.buymeacoffee.com/kisaragihiu"
+  },
   "homepage": "https://github.com/kisaragi-hiu/use-license",
   "author": "Kisaragi Hiu <mail@kisaragi-hiu.com>",
   "license": "MIT",
