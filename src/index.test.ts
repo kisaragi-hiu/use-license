@@ -1,13 +1,14 @@
 import { expect, test } from "bun:test"
-import { getLicenseList } from "./get.ts"
+import { getLicense, getLicenseList } from "./get.ts"
 
 test("getting and parsing license list", async () => {
   expect(await getLicenseList()).toEqual(expect.anything())
 })
 
-// test("every license works", async () => {
-//   const licenses = (await licenseList()).licenses
-//   for (const { licenseId } of licenses) {
-//     expect(await downloadLicense(licenseId)).toEqual(expect.anything())
-//   }
-// })
+const licenses = (await getLicenseList(true, true)).licenses
+test.each(licenses.map((license) => [license.licenseId]))(
+  "Can fetch and parse: %s",
+  async (id) => {
+    expect(await getLicense(id)).toEqual(expect.anything())
+  },
+)
