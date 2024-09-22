@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, writeFileSync, writeSync } from "node:fs"
+import { existsSync, realpathSync, writeFileSync, writeSync } from "node:fs"
 import { parseArgs } from "node:util"
 import open from "open"
 import pkg from "../package.json"
@@ -100,6 +100,6 @@ Options:
   }
 }
 
-if (process.argv[1] === import.meta.filename) {
+if (realpathSync(process.argv[1]) === import.meta.filename) {
   main()
 }

@@ -1,6 +1,10 @@
 # use-license
 
-# 0.1.0 (2024-09-22)
+## 0.1.1 (2024-09-22)
+
+Fix the command doing nothing when run through npx.
+
+## 0.1.0 (2024-09-22)
 
 Initial release.
 
