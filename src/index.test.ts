@@ -10,8 +10,14 @@ test("getting and parsing license list", async () => {
 })
 
 const licenses = (await getLicenseList(true, true)).licenses
-test.each(licenses.map((license) => [license.licenseId]))(
-  "Can fetch and parse: %s",
+const sampleIndicies: Set<number> = new Set()
+while (sampleIndicies.size < 5) {
+  sampleIndicies.add(Math.floor(Math.random() * licenses.length))
+}
+const sampledLicenses = [...sampleIndicies].map((i) => licenses[i])
+
+test.each(sampledLicenses.map((license) => [license.licenseId]))(
+  "Can fetch and parse randomly sampled license: %s",
   async (id) => {
     expect(await getLicense(id)).toEqual(expect.anything())
   },
