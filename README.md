@@ -1,6 +1,6 @@
 # use-license
 
-[![Coverage Status](https://coveralls.io/repos/github/kisaragi-hiu/use-license/badge.svg?branch=main)](https://coveralls.io/github/kisaragi-hiu/use-license?branch=main)
+[![NPM Version](https://img.shields.io/npm/v/use-license)](https://www.npmjs.com/package/use-license) [![Coverage Status](https://coveralls.io/repos/github/kisaragi-hiu/use-license/badge.svg?branch=main)](https://coveralls.io/github/kisaragi-hiu/use-license?branch=main) [![BMC](https://img.shields.io/badge/buy%20me%20a%20coffee-kisaragihiu-FD0)](https://buymeacoffee.com/kisaragihiu)
 
 Yet another take at a license downloader.
 
