@@ -35,3 +35,6 @@ release:
 
 test:
 	bun test
+
+test-cov:
+	bun test --coverage --coverage-reporter lcov

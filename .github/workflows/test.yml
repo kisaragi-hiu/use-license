@@ -10,9 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - run: |
+      - name: Packages
+        run: |
           bun install
-      - run: |
+      - name: Lint
+        run: |
           make lint
-      - run: |
-          make test
+      - name: Test
+        run: |
+          make test-cov
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
