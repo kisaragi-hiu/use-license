@@ -1,7 +1,7 @@
 {
   "name": "use-license",
-  "version": "0.0.1",
-  "description": "Download SPDX license",
+  "version": "0.1.0",
+  "description": "Download license via SPDX identifier",
   "type": "module",
   "repository": {
     "type": "git",
