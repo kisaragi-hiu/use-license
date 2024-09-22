@@ -60,9 +60,7 @@ Options:
     const { all } = parsedArgs.values
     const licenseList = await getLicenseList(false, all)
     for (const license of licenseList.licenses) {
-      console.log(
-        `${license.licenseId} (${license.name}) https://spdx.org/licenses/${license.licenseId}.html`,
-      )
+      console.log(`${license.licenseId} (${license.name})`)
     }
     console.log(`\nLicense list date: ${licenseList.releaseDate}`)
   } else {
