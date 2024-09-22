@@ -2,7 +2,7 @@
 import { existsSync, writeFileSync, writeSync } from "node:fs"
 import { parseArgs } from "node:util"
 import pkg from "../package.json"
-import { getLicense } from "./get.ts"
+import { getLicense, getLicenseList } from "./get.ts"
 import { readId, yn } from "./read.ts"
 
 // The default behavior on an uncaught exception is to print the source line
@@ -28,9 +28,10 @@ async function main() {
   const parsedArgs = parseArgs({
     allowPositionals: true,
     options: {
+      force: { type: "boolean", short: "f" },
       help: { type: "boolean" },
-      force: { type: "boolean" },
-      nonfree: { type: "boolean" },
+      list: { type: "boolean", short: "l" },
+      all: { type: "boolean" },
     },
   })
   if (parsedArgs.values.help) {
@@ -39,31 +40,49 @@ async function main() {
 Usage:
   use-license:
     Choose a license from the SPDX license list to download.
+  use-license --list:
+    List out all available open source licenses.
+  use-license --list --all:
+    List out all available licenses, including nonfree licenses.
   use-license <ID>:
     Download license matching <ID>.
 
 Options:
-  --force: Always overwrite instead of asking
-  --nonfree: Include licenses not certified by the OSI or the FSF
-  --help: show help (this message)`)
-    process.exit(0)
-  }
-  const { force, nonfree } = parsedArgs.values
-  const path = "./LICENSE"
-  if (existsSync(path)) {
-    const cnt =
-      force ||
-      (await yn(`${path} already exists, do you want to overwrite it?`))
-    if (!cnt) return
-  }
+  --force (-f):
+    Always overwrite instead of asking
+  --list (-l):
+    List licenses instead of choosing interactively
+  --all:
+    When listing, include licenses not certified by the OSI or the FSF
+  --help:
+    show help (this message)`)
+  } else if (parsedArgs.values.list) {
+    const { all } = parsedArgs.values
+    const licenseList = await getLicenseList(false, all)
+    for (const license of licenseList.licenses) {
+      console.log(
+        `${license.licenseId} (${license.name}) https://spdx.org/licenses/${license.licenseId}.html`,
+      )
+    }
+    console.log(`\nLicense list date: ${licenseList.releaseDate}`)
+  } else {
+    const { force, all } = parsedArgs.values
+    const path = "./LICENSE"
+    if (existsSync(path)) {
+      const cnt =
+        force ||
+        (await yn(`${path} already exists, do you want to overwrite it?`))
+      if (!cnt) return
+    }
 
-  const id =
-    parsedArgs.positionals.length !== 0
-      ? parsedArgs.positionals[0]
-      : await readId("Choose a license", nonfree)
-  if (typeof id === "undefined") return
+    const id =
+      parsedArgs.positionals.length !== 0
+        ? parsedArgs.positionals[0]
+        : await readId("Choose a license", all)
+    if (typeof id === "undefined") return
 
-  writeFileSync(path, await getLicense(id))
+    writeFileSync(path, await getLicense(id))
+  }
 }
 
 if (process.argv[1] === import.meta.filename) {

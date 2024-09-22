@@ -10,16 +10,21 @@ export async function yn(message: string) {
   return result.value as boolean
 }
 
-export async function readId(message: string, nonfree: boolean | undefined) {
+export async function readId(
+  message: string,
+  includeNonfree: boolean | undefined,
+) {
   const result = await prompts({
     type: "autocomplete",
     name: "id",
     message: message,
     limit: 10,
-    choices: (await getLicenseList(false, nonfree)).licenses.map((license) => ({
-      title: `${license.licenseId} (${license.name})`,
-      value: license.licenseId,
-    })),
+    choices: (await getLicenseList(false, includeNonfree)).licenses.map(
+      (license) => ({
+        title: `${license.licenseId} (${license.name})`,
+        value: license.licenseId,
+      }),
+    ),
     suggest: async (input: string, choices) => {
       const lowerInput = input.toLowerCase()
       return choices.filter((item) => {

@@ -15,8 +15,12 @@ export async function getLicense(id: string) {
 /**
  * Return list of licenses.
  * If `deprecatedIds` is true, also include ids that are deprecated.
+ * If `includeNonfree` is true, also include nonfree licenses.
  */
-export async function getLicenseList(deprecatedIds = false, nonfree = false) {
+export async function getLicenseList(
+  deprecatedIds = false,
+  includeNonfree = false,
+) {
   const response = await fetch(
     `https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/licenses.json`,
   )
@@ -29,9 +33,9 @@ export async function getLicenseList(deprecatedIds = false, nonfree = false) {
         return !license.isDeprecatedLicenseId
       })
       .filter((license) => {
-        if (nonfree) return true
+        if (includeNonfree) return true
         return license.isFsfLibre || license.isOsiApproved
       }),
-    releaseData: parsed.releaseDate,
+    releaseDate: parsed.releaseDate,
   }
 }
