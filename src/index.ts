@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, writeFileSync, writeSync } from "node:fs"
 import { parseArgs } from "node:util"
+import open from "open"
 import pkg from "../package.json"
 import { getLicense, getLicenseList } from "./get.ts"
 import { readId, yn } from "./read.ts"
@@ -28,10 +29,11 @@ async function main() {
   const parsedArgs = parseArgs({
     allowPositionals: true,
     options: {
-      force: { type: "boolean", short: "f" },
-      help: { type: "boolean" },
-      list: { type: "boolean", short: "l" },
       all: { type: "boolean" },
+      force: { type: "boolean", short: "f" },
+      list: { type: "boolean", short: "l" },
+      open: { type: "boolean" },
+      help: { type: "boolean" },
     },
   })
   if (parsedArgs.values.help) {
@@ -40,20 +42,24 @@ async function main() {
 Usage:
   use-license:
     Choose a license from the SPDX license list to download.
-  use-license --list:
+  use-license <ID>:
+    Download license matching <ID>.
+  use-license --list [options]:
     List out all available open source licenses.
   use-license --list --all:
     List out all available licenses, including nonfree licenses.
-  use-license <ID>:
-    Download license matching <ID>.
+  use-license --open:
+    Open the selected license on spdx.org instead of downloading.
 
 Options:
+  --all:
+    When listing, include licenses not certified by the OSI or the FSF
   --force (-f):
     Always overwrite instead of asking
   --list (-l):
     List licenses instead of choosing interactively
-  --all:
-    When listing, include licenses not certified by the OSI or the FSF
+  --open:
+    Open license on spdx.org instead of downloading
   --help:
     show help (this message)`)
   } else if (parsedArgs.values.list) {
@@ -63,6 +69,12 @@ Options:
       console.log(`${license.licenseId} (${license.name})`)
     }
     console.log(`\nLicense list date: ${licenseList.releaseDate}`)
+  } else if (parsedArgs.values.open) {
+    const id =
+      parsedArgs.positionals.length !== 0
+        ? parsedArgs.positionals[0]
+        : await readId("Select a license to open in browser", true)
+    open(`https://spdx.org/licenses/${id}`)
   } else {
     const { force, all } = parsedArgs.values
     const path = "./LICENSE"
