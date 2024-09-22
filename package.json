@@ -1,0 +1,28 @@
+{
+  "name": "use-license",
+  "version": "0.0.1",
+  "description": "Download SPDX license",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kisaragi-hiu/use-license.git"
+  },
+  "author": "Kisaragi Hiu <mail@kisaragi-hiu.com>",
+  "license": "MIT",
+  "bin": {
+    "use-license": "dist/index.js"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "1.8.2",
+    "@types/bun": "^1.1.10",
+    "@types/node": "^20.16.5",
+    "enquirer": "^2.4.1"
+  },
+  "dependencies": {},
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ]
+}
