@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test"
-import { licenseList } from "./index.ts"
+import { getLicenseList } from "./get.ts"
 
 test("getting and parsing license list", async () => {
-  expect(await licenseList()).toEqual(expect.anything())
+  expect(await getLicenseList()).toEqual(expect.anything())
 })
 
 // test("every license works", async () => {

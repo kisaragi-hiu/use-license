@@ -12,6 +12,7 @@
         "useTemplate": "off",
         "noNonNullAssertion": "off",
         "noUnusedTemplateLiteral": "off",
+        "noUselessElse": "off",
         "useNamingConvention": {
           "level": "warn",
           "options": {

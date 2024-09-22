@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import { writeFileSync, writeSync } from "node:fs"
+import { existsSync, writeFileSync, writeSync } from "node:fs"
 import { parseArgs } from "node:util"
-import enquirer from "enquirer"
 import pkg from "../package.json"
-import { spdxJson, spdxList } from "./schema.ts"
+import { getLicense } from "./get.ts"
+import { readId, yn } from "./read.ts"
 
 // The default behavior on an uncaught exception is to print the source line
 // with the error, then print the backtrace or message. Since we ship minified
@@ -24,30 +24,14 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-/**
- * Download the license whose id is `id`.
- */
-export async function downloadLicense(id: string) {
-  const response = await fetch(
-    `https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/details/${id}.json`,
-  )
-  const json = await response.json()
-  const parsed = spdxJson.parse(json)
-  return parsed.licenseText
-}
-
-export async function licenseList() {
-  const response = await fetch(
-    `https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/licenses.json`,
-  )
-  const json = await response.json()
-  return spdxList.parse(json)
-}
-
 async function main() {
   const parsedArgs = parseArgs({
     allowPositionals: true,
-    options: { help: { type: "string" } },
+    options: {
+      help: { type: "boolean" },
+      force: { type: "boolean" },
+      nonfree: { type: "boolean" },
+    },
   })
   if (parsedArgs.values.help) {
     console.log(`use-license (${pkg.homepage})
@@ -56,14 +40,30 @@ Usage:
   use-license:
     Choose a license from the SPDX license list to download.
   use-license <ID>:
-    Download license matching <ID>.`)
+    Download license matching <ID>.
+
+Options:
+  --force: Always overwrite instead of asking
+  --nonfree: Include licenses not certified by the OSI or the FSF
+  --help: show help (this message)`)
     process.exit(0)
   }
-  if (parsedArgs.positionals.length === 0) {
-    console.log(JSON.stringify(await licenseList(), null, 2))
-  } else {
-    writeFileSync("./LICENSE", await downloadLicense(parsedArgs.positionals[0]))
+  const { force, nonfree } = parsedArgs.values
+  const path = "./LICENSE"
+  if (existsSync(path)) {
+    const cnt =
+      force ||
+      (await yn(`${path} already exists, do you want to overwrite it?`))
+    if (!cnt) return
   }
+
+  const id =
+    parsedArgs.positionals.length !== 0
+      ? parsedArgs.positionals[0]
+      : await readId("Choose a license", nonfree)
+  if (typeof id === "undefined") return
+
+  writeFileSync(path, await getLicense(id))
 }
 
 if (process.argv[1] === import.meta.filename) {
