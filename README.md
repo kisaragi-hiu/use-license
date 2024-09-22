@@ -60,6 +60,11 @@ npx use-license "<ID>"
 npx use-license --force
 ```
 
+## Thanks
+
+- Inspiration: [npm:gitignore](https://github.com/msfeldstein/gitignore) by msfeldstein, [npm:license](https://github.com/Ovyerus/license) by Ovyerus
+- [spdx's license-list-data](https://github.com/spdx/license-list-data) and [SPDX](https://spdx.dev/) in general
+
 ## Prior art
 
 - [npm:license](https://github.com/Ovyerus/license) by Ovyerus
