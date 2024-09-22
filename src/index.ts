@@ -64,6 +64,11 @@ Options:
     show help (this message)`)
   } else if (parsedArgs.values.list) {
     const { all } = parsedArgs.values
+    if (all) {
+      console.log("Listing all licenses...")
+    } else {
+      console.log("Listing open source licenses...")
+    }
     const licenseList = await getLicenseList(false, all)
     for (const license of licenseList.licenses) {
       console.log(`${license.licenseId} (${license.name})`)
