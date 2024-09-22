@@ -7,22 +7,20 @@
     "type": "git",
     "url": "git+https://github.com/kisaragi-hiu/use-license.git"
   },
+  "homepage": "https://github.com/kisaragi-hiu/use-license",
   "author": "Kisaragi Hiu <mail@kisaragi-hiu.com>",
   "license": "MIT",
   "bin": {
     "use-license": "dist/index.js"
   },
-  "files": [
-    "dist/index.js"
-  ],
+  "files": ["dist/index.js"],
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
     "@types/bun": "^1.1.10",
     "@types/node": "^20.16.5",
-    "enquirer": "^2.4.1"
+    "enquirer": "^2.4.1",
+    "zod": "^3.23.8"
   },
   "dependencies": {},
-  "trustedDependencies": [
-    "@biomejs/biome"
-  ]
+  "trustedDependencies": ["@biomejs/biome"]
 }

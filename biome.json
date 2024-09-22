@@ -11,6 +11,7 @@
       "style": {
         "useTemplate": "off",
         "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off",
         "useNamingConvention": {
           "level": "warn",
           "options": {
