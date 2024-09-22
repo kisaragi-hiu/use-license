@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
 /**
  * Download the license whose id is `id`.
  */
-async function downloadLicense(id: string) {
+export async function downloadLicense(id: string) {
   const response = await fetch(
     `https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/details/${id}.json`,
   )
@@ -36,7 +36,7 @@ async function downloadLicense(id: string) {
   return parsed.licenseText
 }
 
-async function licenseList() {
+export async function licenseList() {
   const response = await fetch(
     `https://raw.githubusercontent.com/spdx/license-list-data/refs/heads/main/json/licenses.json`,
   )
