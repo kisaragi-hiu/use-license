@@ -97,6 +97,9 @@ Options:
     if (typeof id === "undefined") return
 
     writeFileSync(path, await getLicense(id))
+
+    console.log(`License file has been written to ${path}!
+Remember to fill in any info that may be needed.`)
   }
 }
 
