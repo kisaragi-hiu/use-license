@@ -20,5 +20,5 @@ const licenseMeta = z.object({
 
 export const spdxList = z.object({
   licenses: licenseMeta.array(),
-  releaseDate: z.string().date(),
+  releaseDate: z.coerce.date(),
 })
